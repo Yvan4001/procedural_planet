@@ -7,7 +7,7 @@
 ## 📸 Screenshot
 
 ![Planet Render](Docs/procedurale-rendu.png)
-![Planet Render](Docs/procedural-top-planet.jpg)
+![Planet Top](Docs/procedural-top-planet.jpg)
 
 ---
 
@@ -33,6 +33,22 @@ This repository contains a compact but fully functional procedural terrain gener
 3. `MapGenerator` generates a noise-based `heightMap` and `colorMap` (optionally applies a falloff map) on a background thread, then enqueues results back to the main thread.
 4. `TerrainChunk` requests mesh data for a specific LOD. `MeshGenerator` builds `MeshData`, which gets applied to a `MeshFilter` when ready.
 5. `MapDisplay` provides simple helpers to show a texture or mesh in the scene (useful for editor preview).
+
+### Process Flow
+
+```mermaid
+graph TD
+    A[Main Thread: Update] -->|Request| B[RequestMapData]
+    B -->|Start| C[New Worker Thread]
+    C -->|Calculate| D[GenerateMapData]
+    D -->|Lock & Enqueue| E[mapDataThreadInfoQueue]
+    E -->|Dequeue in Update| F[Main Thread: Execute Callback]
+    F -->|Apply| G[Render Mesh/Texture]
+```
+
+> **Note:** VS Code's default Markdown preview may not render Mermaid diagrams. A static diagram is included below for convenience.
+
+![Process Flow](Docs/map_flow.svg)
 
 ### Important scripts (brief)
 
