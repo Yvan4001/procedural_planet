@@ -7,6 +7,7 @@
 ## 📸 Screenshot
 
 ![Planet Render](Docs/procedurale-rendu.png)
+![Planet Render](Docs/procedural-top-planet.jpg)
 
 ---
 
